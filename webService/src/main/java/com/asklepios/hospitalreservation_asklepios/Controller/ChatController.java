@@ -41,8 +41,13 @@ public class ChatController {
             }
 
             // ✅ [Step 3] Service에서 반환된 응답 확인
-            System.out.println("✅ [Controller] 응답 반환: " + response);
-            return ResponseEntity.ok(response);
+            if("symptomChatbot".equals(chatVO.getIdentifier())) {
+                System.out.println("✅ [Controller] 응답 반환: " + response);
+                return ResponseEntity.ok("진료 과는 " + "'"+ response + "'" + "입니다.");
+            } else {
+                System.out.println("✅ [Controller] 응답 반환: " + response);
+                return ResponseEntity.ok(response);
+            }
 
         } catch (Exception e) {
             // ✅ 예외 발생 시 상세 로그 출력
