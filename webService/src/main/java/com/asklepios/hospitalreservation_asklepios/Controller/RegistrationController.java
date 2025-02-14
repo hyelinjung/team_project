@@ -14,14 +14,14 @@ public class RegistrationController {
   @Autowired
   IF_UserService userservice;
 
+  @Autowired
+  IF_RegistrationService registrationservice;
+
   @GetMapping("/registration")
   public String registration(Model model) {
     model.addAttribute("user",  userservice.findMember());
     return "registration/registrationForm";
   }
-
-  @Autowired
-  IF_RegistrationService registrationservice;
 
   @ResponseBody
   @PostMapping("/duplicateHospital")
