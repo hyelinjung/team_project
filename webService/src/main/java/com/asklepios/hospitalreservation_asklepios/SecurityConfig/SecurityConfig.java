@@ -29,13 +29,14 @@ public class SecurityConfig  {
   private final CustomAccessDeniedHandler accessDeniedHandler;
   private final CustomAuthenticationEntryPoint authenticationEntryPoint;
   private final CustomLoginFailureHandler loginFailureHandler;
-
+  private final PrincipalOauth2UserService principalOauth2UserService;
   public SecurityConfig(CustomAccessDeniedHandler accessDeniedHandler,
                         CustomAuthenticationEntryPoint authenticationEntryPoint,
-                        CustomLoginFailureHandler loginFailureHandler) {
+                        CustomLoginFailureHandler loginFailureHandler, PrincipalOauth2UserService principalOauth2UserService) {
     this.accessDeniedHandler = accessDeniedHandler;
     this.authenticationEntryPoint = authenticationEntryPoint;
     this.loginFailureHandler = loginFailureHandler;
+    this.principalOauth2UserService = principalOauth2UserService;
   }
 
 
@@ -49,7 +50,7 @@ public class SecurityConfig  {
                 "/agreement","/commoninfo","/doctorinfo","/userjoin","/getreview","/filter","/insertedID","/hospitalList",
                 "/bboard_all","/bboard_campaign","/bboard_med","/doctorreservationstatus","/acceptreservation","/cancelreservation","/verify_password_mypage",
                 "/bboard_health","/bboard_free","/detail", "/updateUserInfo","/chat","/recommend","/search","/api/chat/recommend",
-                    "/gettimedata","/getgenderdata").permitAll() // 요청은 허용
+                    "/login/oauth2/code/google","/gettimedata","/getgenderdata").permitAll() // 요청은 허용
                 .requestMatchers("/reservation","/reservationForm","/reserve").hasRole("client")
             .requestMatchers("/registration").hasRole("doctor")
             .requestMatchers("/myPage","/excelDownload").hasAnyRole("doctor","client")
@@ -72,10 +73,18 @@ public class SecurityConfig  {
         )
 
         .logout((logout)->logout
-                  .logoutSuccessUrl("/")  //로그아웃
+                  .logoutSuccessUrl("/home")  //로그아웃
                   .logoutUrl("/logout")
                   .invalidateHttpSession(true)   //전체 세션 삭제
+
         );
+      http
+              .oauth2Login((auth)->
+                      auth
+                              .userInfoEndpoint(userInfoEndpoint ->
+                                      userInfoEndpoint
+                                              .userService(principalOauth2UserService))
+                              .defaultSuccessUrl("/",true));
     return http.build();
   }
 //  @Override
