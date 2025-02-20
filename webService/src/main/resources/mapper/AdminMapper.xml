@@ -6,4 +6,12 @@
     <select id="selectAllHospital" resultType="com.asklepios.hospitalreservation_asklepios.VO.HospitalVO">
         select * from hospital
     </select>
+
+    <update id="approveHospital" parameterType="String">
+        update hospital set hospital_accept = "승인" where hospital_name = #{hospital_name}
+    </update>
+
+    <update id="disapproveHospital" parameterType="String">
+        update hospital set hospital_accept = "거절" where hospital_name = #{hospital_name}
+    </update>
 </mapper>

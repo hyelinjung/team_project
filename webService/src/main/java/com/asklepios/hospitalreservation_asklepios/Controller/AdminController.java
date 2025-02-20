@@ -51,6 +51,22 @@ public class AdminController {
     return adminService.viewAllHospital();
   }
 
+  // 병원 승인 API
+  @ResponseBody
+  @GetMapping("/approval")
+  public void approveHospital(@RequestParam("hospital_name")String hospital_name) {
+    System.out.println(hospital_name);
+    adminService.approveHospital(hospital_name);
+  }
+
+  // 병원 거절 API
+  @ResponseBody
+  @GetMapping("/disapproval")
+  public void disapproveHospital(@RequestParam("hospital_name")String hospital_name) {
+    System.out.println(hospital_name);
+    adminService.disapproveHospital(hospital_name);
+  }
+
   // PDF 파일 다운로드 API
   @GetMapping("/downloadCertification")
   @ResponseBody

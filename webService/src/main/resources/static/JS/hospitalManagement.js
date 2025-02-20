@@ -135,7 +135,10 @@ function openModal(hospital) {
     document.getElementById("modalHospitalName").textContent = hospital.hospital_name;
     document.getElementById("modalHospitalAddr").textContent = hospital.hospital_addr;
     document.getElementById("modalHospitalTel").textContent = hospital.hospital_tel;
-    document.getElementById("modalHospitalAccept").textContent = hospital.hospital_accept;
+    document.getElementById("modalHospitalTime").textContent = hospital.hospital_time;
+    document.getElementById("modalHospitalNotice").textContent = hospital.hospital_notice;
+    document.getElementById("modalHospitalIntro").textContent = hospital.hospital_intro;
+    document.getElementById("modalHospitalCertification").innerHTML = `<a href="/downloadCertification?filename=${hospital.hospital_certification}" download><img style="width: 60px; float: left" src="Img/pdf_icon.png">증명서 다운로드</a>`;
 
     // 모달 표시
     document.getElementById("hospitalModal").style.display = "flex";
@@ -178,4 +181,45 @@ function openModal(hospital) {
 function closeModal() {
     document.getElementById("hospitalModal").style.display = "none";
 }
+
+// 병원 승인
+function approval(){
+    let hospitalName = document.getElementById("modalHospitalName").textContent;
+
+    $.ajax({
+        url: "/asklepios/approval",
+        type: "get",
+        data: {
+            hospital_name : hospitalName
+        },
+        success: function () {
+            Swal.fire('승인 완료', `${hospitalName}의 등록을 승인했습니다!`,'success');
+            viewHospital();
+        },
+        error: function () {
+            alert("승인에 실패했습니다.");
+        }
+    });
+}
+
+// 병원 거절
+function disapproval(){
+    let hospitalName = document.getElementById("modalHospitalName").textContent;
+
+    $.ajax({
+        url: "/asklepios/disapproval",
+        type: "get",
+        data: {
+            hospital_name : hospitalName
+        },
+        success: function () {
+            Swal.fire('거절 완료', `${hospitalName}을 등록을 거절했습니다!`,'success');
+            viewHospital();
+        },
+        error: function () {
+            alert("거절에 실패했습니다.");
+        }
+    });
+}
+
 

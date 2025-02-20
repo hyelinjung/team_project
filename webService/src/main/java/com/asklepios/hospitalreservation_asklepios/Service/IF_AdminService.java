@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface IF_AdminService {
   public List<HospitalVO> viewAllHospital();
+  public void approveHospital(String hospital_name);
+  public void disapproveHospital(String hospital_name);
 }

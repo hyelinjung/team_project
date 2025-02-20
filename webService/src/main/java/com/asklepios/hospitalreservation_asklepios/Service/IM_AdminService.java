@@ -17,4 +17,14 @@ public class IM_AdminService implements IF_AdminService{
   public List<HospitalVO> viewAllHospital() {
       return adminMapper.selectAllHospital();
   }
+
+  @Override
+  public void approveHospital(String hospital_name) {
+    adminMapper.approveHospital(hospital_name);
+  }
+
+  @Override
+  public void disapproveHospital(String hospital_name) {
+    adminMapper.disapproveHospital(hospital_name);
+  }
 }
