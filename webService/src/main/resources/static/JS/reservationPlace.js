@@ -339,7 +339,7 @@ function showInfo(name, addr){
                   <td>${doctor.user_name}</td>
                   <td rowspan="3">`;
                   if(doctor.user_image == null){
-                    doctorRow += `<img src="../profile_image/doctor_image.jpg" alt="의사 사진" width="150px" height="200px" style="border-radius: 10px;" />`;
+                    doctorRow += `<img src="profile_image/doctor_image.jpg" alt="의사 사진" width="150px" height="200px" style="border-radius: 10px;" />`;
                   }else{
                     doctorRow += `<img src="profile_image/${doctor.user_image}" alt="의사 사진" width="150px" height="200px" style="border-radius: 10px;" />`;
                   }

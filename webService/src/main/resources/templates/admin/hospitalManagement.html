@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Asklepios</title>
+</head>
+<link rel="stylesheet" href="CSS/home.css"/>
+<!--<link rel="stylesheet" href="CSS/reservationAside.css"/>-->
+<script src="https://cdn.tailwindcss.com"></script>
+<script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2621e7976b749ad3df34ac9d8ecf4d9b&libraries=services,clusterer,drawing"></script>
+<script src="https://kit.fontawesome.com/9b855eea51.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<link rel="icon" href="Img/logo_icon.png" type="image/x-icon">
+<style>
+    @font-face {
+        font-family: 'Pretendard-Regular';
+        src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    body {
+        width: 1920px;
+        font-family: 'Pretendard-Regular', 'sans-serif';
+        font-size: 20px;
+        /*border: 1px solid black;*/
+    }
+    .modal {
+        display: none; /* 기본적으로 숨김 */
+        z-index: 1;
+        left: 30px;
+        top: 360px;
+        width: 1520px;
+        height: 1000px;
+        overflow: auto;
+        position: absolute;
+    }
+    .modal-content {
+        background-color: white;
+        border: 1px solid #888;
+        width: 100%;
+        max-width: 1520px;
+        height: 2000px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .close-btn {
+        color: #3b82f6;
+        font-size: 60px;
+        font-weight: bold;
+        position: absolute;
+        right: 20px;
+        top: 10px;
+        cursor: pointer;
+    }
+    .close-btn:hover,
+    .close-btn:focus {
+        color: #0069a8;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .hospitalTitle{
+        border-bottom: 1px solid #afb5b8;
+        font-size: 50px;
+        text-align: center;
+    }
+    .modal-content > div {
+
+    }
+    .map {
+        width: 800px;
+        height: 500px;
+    }
+
+</style>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://kit.fontawesome.com/68dda164c0.js" crossorigin="anonymous"></script>
+<script src="JS/hospitalManagement.js"></script>
+<body>
+<div th:replace="~{include/header}"></div>
+<div id="homeContainer" style="display: flex; height: 1200px;">
+<!--  <aside id="aside1">-->
+<!--    <div style="display: inline-block;" th:replace="~{include/leftAside/reservationAside}"></div>-->
+<!--  </aside>-->
+  <div id="hospitalManage" style="margin-top: 30px; margin-left: 30px; width: 1620px;">
+    <div style="border-bottom: 5px solid #3b82f6;">
+      <h1 style="font-size: 50px; font-weight: bold; color: #3b82f6;">병원관리</h1>
+    </div>
+    <div style="margin-top: 20px">
+      <div style="width: 100%; display: inline-block">
+        <table style="width: 100%" id="hospitalTable">
+          <thead>
+          <tr style="text-align: center; background-color: #3b82f6; height: 60px;">
+            <td style="width: 10%">
+              <p class="mx-auto block font-medium text-white text-3xl dark:text-white">
+                병원코드
+              </p>
+            </td>
+            <td style="width: 15%">
+              <p class="mx-auto block font-medium text-white text-3xl dark:text-white">
+                병원명
+              </p>
+            </td>
+            <td style="width: 34.5%">
+              <p class="mx-auto block font-medium text-white text-3xl dark:text-white">
+                주소
+              </p>
+            </td>
+            <td style="width: 10%">
+              <p class="mx-auto block font-medium text-white text-3xl dark:text-white">
+                연락처
+              </p>
+            </td>
+            <td style="width: 10%">
+              <p class="mx-auto block font-medium text-white text-3xl dark:text-white">
+                등록상태
+              </p>
+            </td>
+          </tr>
+          </thead>
+          <tbody id="hospitalList">
+          </tbody>
+        </table>
+        <div id="pagination" style="text-align: center; margin-top: 20px;"></div>
+        <div id="hospitalModal" class="modal" style="display: none;">
+          <div class="modal-content">
+            <i class="fa-solid fa-xmark close-btn" onclick="closeModal()"></i>
+            <div class="hospitalTitle"><span id="modalHospitalName"></span></div>
+            <div style="padding:20px;">
+              <div>병원명</div>
+              <div>주소</div>
+              <p><strong>주소:</strong> <span id="modalHospitalAddr"></span></p>
+              <div>위치</div>
+              <div style="justify-items : center;">
+                <div class="map" id="map"></div>
+              </div>
+              <div>연락처</div>
+              <p><strong>전화번호:</strong> <span id="modalHospitalTel"></span></p>
+              <div>진료시간</div>
+              <div>공지사항</div>
+              <div>소개글</div>
+              <div>등록상태</div>
+              <p><strong>승인 상태:</strong> <span id="modalHospitalAccept"></span></p>
+              <div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside style="margin-right: 50px; margin-top: 10px; margin-left: 40px;" id="aside2" th:insert="~{include/rightAside}"></aside>
+</div>
+<footer id="footer" th:replace="~{include/footer}">
+</footer>
+</body>
+</html>

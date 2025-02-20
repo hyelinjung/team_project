@@ -54,8 +54,8 @@ public class SecurityConfig  {
                     "/login/oauth2/code/google","/login/oauth2/code/naver","/gettimedata","/getgenderdata","/getagedata","/socialInfo").permitAll() // 요청은 허용
                 .requestMatchers("/reservation","/reservationForm","/reserve").hasAnyRole("client","scClient")
             .requestMatchers("/registration").hasRole("doctor")
-                .requestMatchers("/admin/searchHospital").hasRole("admin")
-            .requestMatchers("/myPage","/excelDownload").hasAnyRole("doctor","client","scClient")
+                .requestMatchers("/hospitalManagement","/viewHospitalList","/downloadCertification").hasRole("admin")
+            .requestMatchers("/myPage","/excelDownload").hasAnyRole("doctor","client","scClient","admin")
             .anyRequest().authenticated()
         )
         .exceptionHandling(exception -> exception
