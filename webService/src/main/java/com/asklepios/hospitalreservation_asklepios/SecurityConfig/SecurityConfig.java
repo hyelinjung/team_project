@@ -55,7 +55,7 @@ public class SecurityConfig  {
             .requestMatchers("/detail","/myPage","/excelDownload").hasAnyRole("doctor","client","scClient","admin")
                 .requestMatchers("/reservation","/reservationForm","/reserve").hasAnyRole("client","scClient","admin")
             .requestMatchers("/registration").hasAnyRole("doctor","admin")
-                .requestMatchers("/hospitalManagement","/viewHospitalList","/downloadCertification","/approval").hasRole("admin")
+                .requestMatchers("/hospitalManagement","/viewHospitalList","/downloadCertification","/approval","/disapproval").hasRole("admin")
             .anyRequest().authenticated()
         )
         .exceptionHandling(exception -> exception

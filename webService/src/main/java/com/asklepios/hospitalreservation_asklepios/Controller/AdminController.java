@@ -76,8 +76,12 @@ public class AdminController {
       Path path = Paths.get(filePath, filename);
       Resource resource = new FileSystemResource(path);
 
+      System.out.println("파일 저장 경로: " + filePath);
+      System.out.println("다운로드 요청된 파일: " + filename);
+      System.out.println("전체 경로: " + path.toString());
+
       // 파일이 존재하지 않으면 404 반환
-      if (!resource.exists()) {
+      if (!resource.exists() || !resource.isFile()) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
       }
 
@@ -90,17 +94,15 @@ public class AdminController {
       // Content-Disposition 설정 방식 수정
       HttpHeaders headers = new HttpHeaders();
       headers.add(HttpHeaders.CONTENT_DISPOSITION, contentDisposition);
-      headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-      headers.setContentType(MediaType.parseMediaType("application/pdf"));
+      headers.setContentType(MediaType.APPLICATION_PDF);
+//      headers.setContentType(MediaType.parseMediaType("application/pdf"));
       headers.setContentLength(resource.contentLength());
 
       return ResponseEntity.ok()
               .headers(headers)
               .body(resource);
 
-    } catch (UnsupportedEncodingException e) {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-    } catch (Exception e) {
+    }catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
   }

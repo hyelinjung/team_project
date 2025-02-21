@@ -138,8 +138,8 @@ function openModal(hospital) {
     document.getElementById("modalHospitalTime").textContent = hospital.hospital_time;
     document.getElementById("modalHospitalNotice").textContent = hospital.hospital_notice;
     document.getElementById("modalHospitalIntro").textContent = hospital.hospital_intro;
-    document.getElementById("modalHospitalCertification").innerHTML = `<a href="/downloadCertification?filename=${hospital.hospital_certification}" download><img style="width: 60px; float: left" src="Img/pdf_icon.png">증명서 다운로드</a>`;
-
+    document.getElementById("modalHospitalCertification").innerHTML = `<a href="/asklepios/downloadCertification?filename=${encodeURIComponent(hospital.hospital_certification)}" download><img style="width: 60px; float: left" src="Img/pdf_icon.png">증명서 다운로드</a>`;
+    // console.log(hospital.hospital_certification);
     // 모달 표시
     document.getElementById("hospitalModal").style.display = "flex";
 
@@ -193,7 +193,7 @@ function approval(){
             hospital_name : hospitalName
         },
         success: function () {
-            Swal.fire('승인 완료', `${hospitalName}의 등록을 승인했습니다!`,'success');
+            Swal.fire('승인 완료', `${hospitalName} 등록을 승인했습니다!`,'success');
             viewHospital();
         },
         error: function () {
@@ -213,7 +213,7 @@ function disapproval(){
             hospital_name : hospitalName
         },
         success: function () {
-            Swal.fire('거절 완료', `${hospitalName}을 등록을 거절했습니다!`,'success');
+            Swal.fire('거절 완료', `${hospitalName} 등록을 거절했습니다!`,'success');
             viewHospital();
         },
         error: function () {

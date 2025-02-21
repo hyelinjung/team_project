@@ -39,10 +39,9 @@
     }
     .modal-content {
         background-color: white;
-        /*border: 1px solid #888;*/
         width: 100%;
         max-width: 1520px;
-        height: 1550px;
+        height: 1600px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
     .close-btn {
@@ -73,36 +72,37 @@
         height: 400px;
     }
     .info1 {
-      font-size: 35px;
-      width: 750px;
-      text-align: left;
-      margin-left: 50px;
-      margin-top: 10px;
-      margin-bottom: 10px;
+        font-size: 35px;
+        width: 750px;
+        text-align: left;
+        margin-left: 50px;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
     .rheader{
-      font-size: 35px;
-      width: 750px;
-      text-align: left;
-      margin-left: 50px;
-      margin-top: 10px;
-      margin-bottom: 10px;
+        font-size: 35px;
+        width: 750px;
+        text-align: left;
+        margin-left: 50px;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
     .infoIntro,.infoNotice{
-      width: 1350px;
-      font-size: 35px;
-      text-align: left;
-      margin-left: 50px;
-      margin-top: 10px;
-      margin-bottom: 10px;
+        width: 1350px;
+        font-size: 35px;
+        text-align: left;
+        margin-left: 50px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        word-break: keep-all;
     }
     .infoTitle{
-      width: 750px;
-      margin-left: 30px;
-      text-align: left;
-      font-size: 30px;
-      color: #666666;
-      /*border: 1px solid;*/
+        width: 750px;
+        margin-left: 30px;
+        text-align: left;
+        font-size: 30px;
+        color: #666666;
+        /*border: 1px solid;*/
     }
 </style>
 <script src="https://cdn.tailwindcss.com"></script>
@@ -112,9 +112,6 @@
 <body>
 <div th:replace="~{include/header}"></div>
 <div id="homeContainer" style="display: flex; height: 1200px;">
-<!--  <aside id="aside1">-->
-<!--    <div style="display: inline-block;" th:replace="~{include/leftAside/reservationAside}"></div>-->
-<!--  </aside>-->
   <div id="hospitalManage" style="margin-top: 30px; margin-left: 30px; width: 1620px;">
     <div style="border-bottom: 5px solid #3b82f6;">
       <h1 style="font-size: 50px; font-weight: bold; color: #3b82f6;">병원관리</h1>
