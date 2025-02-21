@@ -39,4 +39,5 @@ public class HospitalController {
 
         System.out.println(hospital_name);
     }
+
 }

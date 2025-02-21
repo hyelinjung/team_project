@@ -50,11 +50,12 @@ public class SecurityConfig  {
                 "/", "/home","/login","/findId","/resultId","/findPw","findEmail","/resultPw","mailSend","mailCheck",
                 "/agreement","/commoninfo","/doctorinfo","/userjoin","/getreview","/filter","/insertedID","/hospitalList",
                 "/bboard_all","/bboard_campaign","/bboard_med","/doctorreservationstatus","/acceptreservation","/cancelreservation","/verify_password_mypage",
-                "/bboard_health","/bboard_free", "/updateUserInfo","/chat","/recommend","/search","/api/chat/recommend","/api/medical/recommend", "/qanda", "/qanda/questionForm","/qnaSubmit",
+                "/bboard_health","/bboard_free","/updateUserInfo","/chat","/recommend","/search","/api/chat/recommend","/api/medical/recommend", "/qanda", "/qanda/questionForm","/qnaSubmit",
                     "/login/oauth2/code/google","/login/oauth2/code/naver","/gettimedata","/getgenderdata","/getagedata","/socialInfo").permitAll() // 요청은 허용
-                .requestMatchers("/reservation","/reservationForm","/reserve").hasAnyRole("client","scClient")
-            .requestMatchers("/registration").hasRole("doctor")
             .requestMatchers("/detail","/myPage","/excelDownload").hasAnyRole("doctor","client","scClient","admin")
+                .requestMatchers("/reservation","/reservationForm","/reserve").hasAnyRole("client","scClient","admin")
+            .requestMatchers("/registration").hasAnyRole("doctor","admin")
+                .requestMatchers("/hospitalManagement","/viewHospitalList","/downloadCertification","/approval","/disapproval").hasRole("admin")
             .anyRequest().authenticated()
         )
         .exceptionHandling(exception -> exception
