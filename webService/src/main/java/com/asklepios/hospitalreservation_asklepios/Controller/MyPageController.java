@@ -43,7 +43,8 @@ public class MyPageController {
         if (user == null) {
             System.out.println("1");
             return "redirect:/login";
-        } else if(user.getUser_authority().equals("client")) {
+        } else if(user.getUser_authority().equals("client")
+                ||user.getUser_authority().equals("scClient")) {
             System.out.println("2");
             user.divideEngName();
             user.divideAddr();
