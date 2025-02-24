@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Asklepios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/9b855eea51.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <link rel="icon" href="Img/logo_icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="CSS/home.css"/>
+    <link rel="stylesheet" href="CSS/qandaAside.css"/>
+    <link rel="stylesheet" href="CSS/questionForm.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <style>
+        .asideList {
+          background-color:#3b82f6;
+          color:white;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{include/header}"></div>
+<script>
+    $(document).ready(function(){
+    localStorage.setItem('bellCount',document.getElementById("unread").value);
+    console.log('디테일'+localStorage.getItem('bellCount'));
+    });
+</script>
+<div style="display:flex; width: 1920px; height: 1200px; margin-bottom: 80px;">
+    <div style="display: inline-block;" th:replace="~{include/leftAside/qandaAside}"></div>
+    <div class="container1" style="max-height: 1200px; overflow-y: auto;">
+        <input type="hidden" id="unread" th:value="${unReadCount}">
+        <table class="w-full table-fixed border-collapse">
+            <tr class="small m-0">
+                <td class="td1 p-0 w-full">
+                    <div class="data-display text-5xl py-0" th:text="${list.title}">
+                        제목
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="small m-0 h-auto">
+                <td colspan="1" class="td2 p-0">
+                    <div class="data-display flex space-x-2">
+                        <p class="text-gray-500 text-lg" th:text="${list.user_name}">
+                            김**
+                        </p>
+                        <p class="text-gray-500 text-lg" th:text="${list.date}">
+                            방금 전
+                        </p>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="medium">
+                <td colspan="2" class="td2">
+                    <div class="data-display text-2xl py-0 min-h-[100px]" th:text="${list.content}">
+                        내용
+                    </div>
+                </td>
+            </tr>
+
+            <!-- 이미지 섹션 -->
+            <tr>
+                <td colspan="2">
+                    <div class="flex space-x-4 overflow-x-auto min-h-[120px] p-2">
+                        <!-- 이미지가 없을 때를 대비해 레이아웃 유지 -->
+                        <div th:each="item : ${list.imgs}" class="flex-shrink-0">
+                            <img th:src="@{${item.fileName}}" alt="Image description" class="w-32 h-32 object-cover">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="qan_bu flex w-full justify-between items-center">
+                <!-- 태그 리스트 (왼쪽 정렬) -->
+                <td class="flex flex-wrap space-x-2 text-left">
+                    <div class="data-display py-0" th:each="t : ${list.tagList}" th:text="${t == ''? t:'#' + t}">
+                        #태그
+                    </div>
+                </td>
+
+                <!-- 답변 버튼 (오른쪽 정렬) -->
+                <td class="flex justify-end">
+                    <input type="hidden" id="question_id" th:value="${list.id}">
+                    <button type="button" onclick="submit()" name="qna_btn" sec:authorize="hasRole('doctor')"
+                            class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                        답변하기
+                    </button>
+                </td>
+            </tr>
+
+
+            <!-- 답변 섹션 -->
+            <tr class="small">
+                <td colspan="2" class="td2">
+                    <div class="bg-gray-200 py-4">
+                        <p class="text-left text-3xl font-bold" th:text="${count == 0? '등록된 답변이 없습니다.': count+'개의 답변이 있습니다.'}">정형외과</p>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="small" th:each="item : ${list.answerlist}">
+                <td colspan="2" class="td2 p-2">
+                    <!-- 병원 및 의사 정보 -->
+                    <div class="data-display flex items-center space-x-4">
+                        <div th:if="${item.aiContentSplit == null or #arrays.length(item.aiContentSplit) ==0}">
+                            <img th:if="${#strings.isEmpty(item.title)}" th:src="@{/Img/defaultDoctor.png}"
+                                 alt="의사 프로필" class="w-12 h-12 rounded-full">
+                            <img th:unless="${#strings.isEmpty(item.title)}" th:src="@{${item.title}}"
+                                 alt="의사 프로필" class="w-12 h-12 rounded-full">
+                        </div>
+                        <div th:unless="${item.aiContentSplit == null or #arrays.length(item.aiContentSplit) ==0}">
+                            <img th:src="@{/Img/chatbot.png}" alt="의사 프로필" class="w-12 h-12 rounded-full" style="background: #3b82f6">
+                        </div>
+
+                        <p class="text-gray-500 text-lg" th:text="${item.tag} ?: '전문과 없음'">전문과</p>
+                        <span>/</span>
+                        <p class="text-gray-500 text-lg" th:text="${item.sub} ?: '병원명 없음'">병원명</p>
+                    </div>
+
+                    <!-- 의사 이름 및 작성 시간 -->
+                    <div class="data-display flex space-x-2">
+                        <p class="text-gray-500 text-lg" th:text="${item.user_name}">의사이름</p>
+                        <p class="text-gray-500 text-lg" th:text="${item.date} ?: '작성시간 없음'">작성시간</p>
+                    </div>
+
+                    <div th:if="${item.aiContentSplit == null or #arrays.length(item.aiContentSplit) ==0}">
+                    <!-- 답변 내용 -->
+                    <div class="data-display text-2xl py-2 min-h-[100px]" style="margin-top:7%" th:text="${item.content}">
+                        답변 내용
+                    </div>
+                    </div>
+                    <div th:unless="${item.aiContentSplit == null or #arrays.length(item.aiContentSplit) ==0}">
+                        <div class="data-display text-2xl py-2 min-h-[100px]" style="margin-top:7%" th:each="i : ${item.aiContentSplit}" th:text="${i}">
+                            답변 내용
+                        </div>
+                    </div>
+
+
+                    <!-- 구분선 -->
+                    <div class="border-t border-gray-400 opacity-50 my-4"></div>
+                </td>
+            </tr>
+
+
+
+        </table>
+    </div>
+
+    <aside id="aside2" th:insert="~{include/rightAside}"></aside>
+</div>
+<footer id="footer" th:replace="~{include/footer}">
+</footer>
+</body>
+</html>
+<script src="JS/questionForm.js"></script>
+<script>
+    function submit(){
+    let id = document.getElementById('question_id').value;
+    location.href='/asklepios/answerPage?questionId='+id;
+    }
+</script>
+
+

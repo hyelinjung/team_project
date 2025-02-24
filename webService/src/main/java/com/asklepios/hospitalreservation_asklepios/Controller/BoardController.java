@@ -29,25 +29,25 @@ public class BoardController {
   @Autowired
   IF_UserService userService;
 
-//  @GetMapping("/bboard_all")
-//  public String board_all(Model model, @ModelAttribute PageVO pagevo) throws Exception{
-//    MemberVO user=userService.findMember();
-//    model.addAttribute("user", user);
-//    if(pagevo.getPage()==null){
-//      pagevo.setPage(1);
-//    }
-//    String category="모든 글";
-//    pagevo.setTotalCount(boardService.boardCount(category));
-////    System.out.println(pagevo.getTotalCount());
-////    System.out.println(pagevo.getPage());
-////    System.out.println(pagevo.getStartNo());
-//    List<BoardVO> boardlist=boardService.boardAll(pagevo);
-////    List<BoardVO> noticelist=boardService.boardNoticeList();
-//    model.addAttribute("boardlist", boardlist);
-////    model.addAttribute("noticelist", noticelist);
-//    model.addAttribute("category", category);
-//    return "board/main";
-//  }
+  @GetMapping("/bboard_all")
+  public String board_all(Model model, @ModelAttribute PageVO pagevo) throws Exception{
+    MemberVO user=userService.findMember();
+    model.addAttribute("user", user);
+    if(pagevo.getPage()==null){
+      pagevo.setPage(1);
+    }
+    String category="모든 글";
+    pagevo.setTotalCount(boardService.boardCount(category));
+//    System.out.println(pagevo.getTotalCount());
+//    System.out.println(pagevo.getPage());
+//    System.out.println(pagevo.getStartNo());
+    List<BoardVO> boardlist=boardService.boardAll(pagevo);
+//    List<BoardVO> noticelist=boardService.boardNoticeList();
+    model.addAttribute("boardlist", boardlist);
+//    model.addAttribute("noticelist", noticelist);
+    model.addAttribute("category", category);
+    return "board/main";
+  }
 
   @GetMapping("/bboard_health")
   public String board_health(Model model, @ModelAttribute PageVO pagevo,

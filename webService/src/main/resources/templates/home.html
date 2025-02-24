@@ -284,7 +284,16 @@
 </head>
 <body>
 <div th:replace="~{include/header}"></div>
+<script>
+  $(document).ready(function(){
+  //안읽은 질문글 개수
+    let bell = document.getElementById("bell_count").value;
+    localStorage.setItem("bellCount", bell);
+    console.log(localStorage.getItem("bellCount"));
+  });
+</script>
 <div class="homeContainer">
+  <input type="hidden" id="bell_count" th:value="${unreadCount}">
   <div id="sectionHome">
     <div id="intro" class=" animate-on-top">
       <div id="introTextContainer">

@@ -22,21 +22,21 @@
         <result property="content" column="content"/>
         <result property="date" column="date"/>
         <result property="tag" column="tag"/>
-        <result property="sub" column="sub"/>
+        <result property="sub" column="user_id"/>
         <result property="user_name" column="user_name"/>
         <collection property="imgs" ofType="com.asklepios.hospitalreservation_asklepios.VO.Question_imgVO">
             <result property="fileName" column="fileName"/>
         </collection>
     </resultMap>
 
-<!--    질문 보기 자세히-->
+    <!--    질문 보기 자세히-->
     <select id="detailQandA"  resultMap="UserResultMap">
         SELECT
         q.title,
         q.content,
         q.date,
         q.tag,
-        q.sub,
+        q.user_id,
         u.user_name,
         img.fileName
         FROM question as q
@@ -52,8 +52,21 @@
 
     <!--큐엔에이 디테일 보기에서 의사관련 정보만 가져오기-->
     <select id="show_detail_getDoctorInfo"  resultType="com.asklepios.hospitalreservation_asklepios.VO.QuestionlistVO">
-        select a.content,a.`date`,u.user_name,a.hospital_name as sub,a.user_doctor_medical as tag from answer a left join users u on a.user_doctor_id =u.user_id where a.question_id =#{question_id};
+        select a.answer_id as id,a.content,a.`date`,u.user_name,a.hospital_name as sub,a.user_doctor_medical as tag, u.user_image as title from answer a left join users u on a.user_doctor_id =u.user_id where a.question_id =#{question_id};
     </select>
+
+    <update id="change_unreadCount_mapper">
+        UPDATE ai_answer AS a LEFT JOIN answer AS d ON a.question_id = d.question_id
+        <set>
+            <if test="beforeRead">
+                d.answer_read ='1',
+            </if>
+            <if test="afterRead">
+                a.ai_read='1'
+            </if>
+        </set>
+        WHERE a.question_id = #{questionId}
+    </update>
 
 
 

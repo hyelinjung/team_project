@@ -15,7 +15,14 @@
           </div>
         </form>
       </div>
-      <div id="loginSession">
+      <div id="loginSession" class="flex space-x-4">
+        <!--알림-->
+        <a th:href="@{/qandaList}" class="relative">
+          <i class="fa-solid fa-bell text-blue-500 text-5xl"></i>
+          <span class="bell" id="count_text">
+
+    </span>
+        </a>
         <div sec:authorize="isAnonymous()">
           <span style="padding-right: 20px;"><a href="login">로그인<i class="fa-solid fa-right-to-bracket"></i></a></span>
           <span><a href="/asklepios/userjoin">회원가입<i class="fa-solid fa-user-plus"></i></a></span>
@@ -70,14 +77,10 @@
         </ul>
       </li>
       <li>
-        <a href="qanda">QnA</a>
+        <a href="qandaList">QnA</a>
       </li>
     </ul>
   </nav>
 </div>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script>
-  // function reservationFirst(){
-  //   alert("예약하기를 통해 진행해주세요.");
-  // }
-</script>
+<script src="JS/home.js" defer></script>
