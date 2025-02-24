@@ -182,5 +182,14 @@ public class IM_UserService implements IF_UserService{
         usermapper.updateSocialUserCommonInfo(userVO);
     }
 
+    @Override
+    public boolean getAuthority(String userid) {
+        String authority = usermapper.getAuthority(userid);
+        if (authority.equals("client")){
+            return true;
+        }
+        return false;
+    }
+
 
 }

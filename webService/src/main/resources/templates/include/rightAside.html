@@ -188,12 +188,6 @@
     }
     #predictModel{
         cursor: pointer;
-        margin-top: 20px;
-        font-size: 25px;
-        background: #3b82f6;
-        color: white;
-        border-radius: 5px;
-        text-align: center;
     }
 </style>
 <aside class="quickMenu" style="position: sticky; top: 10px;">
@@ -289,12 +283,10 @@
     <div class="chatIcon" id="chatIcon" onclick="toggleChat()">
         <img src="Img/chatbot.png" class="chatIconSmall" style="margin: 0px; width: 90px; height: 90px;">
     </div>
-    <!--    피부진단모델 호출-->
+<!--    피부진단모델 호출-->
     <div>
         <div id="predictModel" onclick="aiModelPopup()">
-            <div>피부가 가려우신가요?</div>
-            <div>AI진단 받아보세요</div>
-            <div>>진단 받으러 가기<</div>
+            <span>AI 진단 받아보세요</span>
         </div>
     </div>
 </aside>
@@ -511,10 +503,6 @@
     // AI진단모델 팝업창
     function aiModelPopup(){
         window.open('http://localhost:8080/asklepios/predict','예측모델',
-            'width=600px,height=600px,scrollbars=yes');
-    }
-    //팝업창 닫고 예약하기 페이지로 이동
-    function closePopup(){
-        window.location.href="http://localhost:8080/asklepios/search?keyword=피부과"
+            'width=700px,height=800px,scrollbars=yes');
     }
 </script>

@@ -5,6 +5,7 @@ import com.asklepios.hospitalreservation_asklepios.VO.DoctorVO;
 import com.asklepios.hospitalreservation_asklepios.VO.MemberVO;
 import com.asklepios.hospitalreservation_asklepios.VO.UserVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,4 +34,7 @@ public interface IF_UserMapper {
     int selectTotalReservationCount(String userId);
     MemberVO selectMember(String user_id);
     void updateSocialUserCommonInfo(UserVO userVO);
+    //권한 가지고 오기 -혜린
+    @Select("SELECT user_authority FROM users WHERE user_id = #{userid}")
+    String getAuthority(String userid);
 }

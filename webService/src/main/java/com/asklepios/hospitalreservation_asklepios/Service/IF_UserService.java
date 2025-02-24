@@ -26,4 +26,6 @@ public interface IF_UserService {
     public MemberVO findUser(String user_id);
     public MemberVO findMember();
     public void modifySocialUserCommonInfo(UserVO userVO);
+    //권한 가져오기 -혜린
+    boolean getAuthority(String userid);
 }
