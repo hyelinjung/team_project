@@ -150,12 +150,12 @@ public class AsklepiosController {
 
     @GetMapping("/predict")
     public String predict(Model model) {
-        return "predictPopup";
+        return "popup/predict";
     }
 
     @ResponseBody
     @PostMapping("/imgPredict")
-    public ResponseEntity<byte[]> imgPredict(@RequestParam("file") MultipartFile file){
+    public ResponseEntity<byte[]> imgPredict(@RequestParam("skinImage") MultipartFile file){
         try{
             //FastAPI에 보낼 multipart 요청준비
             MultiValueMap<String,Object> body=new LinkedMultiValueMap<>();
