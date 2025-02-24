@@ -52,7 +52,7 @@ public class SecurityConfig  {
                 "/bboard_all","/bboard_campaign","/bboard_med","/doctorreservationstatus","/acceptreservation","/cancelreservation","/verify_password_mypage",
                 "/bboard_health","/bboard_free","/updateUserInfo","/chat","/recommend","/search","/api/chat/recommend","/api/medical/recommend", "/qanda", "/qanda/questionForm","/qnaSubmit",
                     "/login/oauth2/code/google","/login/oauth2/code/naver","/gettimedata","/getgenderdata","/getagedata","/socialInfo").permitAll() // 요청은 허용
-            .requestMatchers("/detail","/myPage","/excelDownload").hasAnyRole("doctor","client","scClient","admin")
+            .requestMatchers("/detail","/myPage","/excelDownload","/predict","/imgPredict").hasAnyRole("doctor","client","scClient","admin")
                 .requestMatchers("/reservation","/reservationForm","/reserve").hasAnyRole("client","scClient","admin")
             .requestMatchers("/registration").hasAnyRole("doctor","admin")
                 .requestMatchers("/hospitalManagement","/viewHospitalList","/downloadCertification","/approval","/disapproval").hasRole("admin")
