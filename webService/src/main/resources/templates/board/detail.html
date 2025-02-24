@@ -106,7 +106,7 @@
     text-align: center;
     cursor: pointer;
   }
-  #board_binary{
+  #fileName{
     cursor: pointer;
   }
 </style>
@@ -160,7 +160,7 @@
           <tr><td colspan="2"><textarea style="resize: none" name="board_content" th:text="${boardVO.getBoard_content()}" readonly></textarea></td></tr>
           <tr><td class="header">첨부파일</td></tr>
           <tr>
-            <td><input type="text" name="board_binary" th:value="${boardVO.board_binary}" onclick="downloadFile()" readonly></td>
+            <td><input id="fileName" type="text" name="board_binary" th:value="${boardVO.board_binary}" onclick="downloadFile()" readonly></td>
 <!--            <td><div onclick="downloadFile()">다운로드</div></td>-->
             <td th:if="${user!=null}"><span id="heart"></span><span id="heartCount" th:text="${boardVO.board_goodcount}"></span></td>
           </tr>
