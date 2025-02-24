@@ -127,12 +127,13 @@
 <body class="mx-auto" style="margin-top: 50px">
 
 <form id="imageForm" enctype="multipart/form-data">
-  <table>
+  <table class="mx-auto">
     <thead>
     <tr>
       <td style="font-size: xx-large; text-align: center">피부질환 AI예측하기</td>
     </tr>
     </thead>
+    <tbody>
     <tr>
       <td>
         <label for="agree">사진 활용 동의</label>
@@ -168,38 +169,69 @@
         <input id="sendButton" type="button" onclick="sendImage()" value="진단받기">
       </td>
     </tr>
+    </tbody>
+    <tbody id="result">
+    <tr>
+      <td>
+        <label for="predictedDisease">진단결과</label>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div  id="predictedDisease"></div>
+        <!--                <textarea id="predictedDisease">-->
+
+        </textarea>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div style="font-size: medium; text-align: center">위 결과는 사실과 다를 수 있습니다. <br>
+          자세한 내용은 의사와 상담받으세요</div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="button" onclick="reservation()" value="예약하기">
+        <input type="button" onclick="closeWindow()" value="닫기" style="float: inline-end;">
+      </td>
+    </tr>
+    </tbody>
   </table>
 </form>
 <br>
+<div class="mx-auto">
+<!--<table id="result">-->
+<!--  <tbody>-->
+<!--  <tr>-->
+<!--    <td>-->
+<!--      <label for="predictedDisease">진단결과</label>-->
+<!--    </td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>-->
+<!--      <div  id="predictedDisease"></div>-->
+<!--      &lt;!&ndash;                <textarea id="predictedDisease">&ndash;&gt;-->
 
-<table id="result">
-  <tr>
-    <td>
-      <label for="predictedDisease">진단결과</label>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <div  id="predictedDisease"></div>
-      <!--                <textarea id="predictedDisease">-->
-
-      </textarea>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <div style="font-size: xx-large; text-align: center">위 결과는 사실과 다를 수 있습니다. <br>
-        자세한 내용은 의사와 상담받으세요</div>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <input type="button" onclick="reservation()" value="예약하기">
-    </td>
-    <td>
-      <input type="button" onclick="closeWindow()" value="닫기">
-    </td>
-  </tr>
-</table>
+<!--      </textarea>-->
+<!--    </td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>-->
+<!--      <div style="font-size: medium; text-align: center">위 결과는 사실과 다를 수 있습니다. <br>-->
+<!--        자세한 내용은 의사와 상담받으세요</div>-->
+<!--    </td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>-->
+<!--      <input type="button" onclick="reservation()" value="예약하기">-->
+<!--    </td>-->
+<!--    <td>-->
+<!--      <input type="button" onclick="closeWindow()" value="닫기">-->
+<!--    </td>-->
+<!--  </tr>-->
+<!--  </tbody>-->
+<!--</table>-->
+</div>
 </body>
 </html>

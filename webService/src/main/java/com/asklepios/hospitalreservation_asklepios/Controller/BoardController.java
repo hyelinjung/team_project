@@ -2,8 +2,7 @@ package com.asklepios.hospitalreservation_asklepios.Controller;
 
 import com.asklepios.hospitalreservation_asklepios.Service.IF_BoardService;
 import com.asklepios.hospitalreservation_asklepios.Service.IF_UserService;
-import com.asklepios.hospitalreservation_asklepios.Util.FileDataUtil;
-//import com.asklepios.hospitalreservation_asklepios.Util.FileDataUtil;
+import com.asklepios.hospitalreservation_asklepios.Util.Profile_ImageUtil;
 import com.asklepios.hospitalreservation_asklepios.VO.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,11 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-
-import java.io.PrintWriter;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,7 +19,8 @@ public class BoardController {
   @Autowired
   IF_BoardService boardService;
   @Autowired
-  FileDataUtil fileDataUtil;
+//  FileDataUtil fileDataUtil;
+  Profile_ImageUtil profileImageUtil;
   @Autowired
   IF_UserService userService;
 
@@ -139,18 +134,20 @@ public class BoardController {
 
   @PostMapping("/submitwrite")
   public String submitWrite(@ModelAttribute BoardVO boardVO,
-                            @ModelAttribute MultipartFile [] file) throws Exception {
+                            @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
 
 //    System.out.println(file.toString());
-    String []newFileName=fileDataUtil.fileUpload(file);
-    String boardFilename="";
-    for(int i=0;i<newFileName.length;i++){
-      boardFilename+=(newFileName[i]);
-      if(i!=newFileName.length-1){
-        boardFilename+=",";
-      }
-    }
-    boardVO.setBoard_binary(boardFilename);
+//    String []newFileName=fileDataUtil.fileUpload(file);
+//    String boardFilename="";
+//    for(int i=0;i<newFileName.length;i++){
+//      boardFilename+=(newFileName[i]);
+//      if(i!=newFileName.length-1){
+//        boardFilename+=",";
+//      }
+//    }
+    String boardFileName = profileImageUtil.storeFile(file);
+    String originalFileName = file.getOriginalFilename();
+    boardVO.setBoard_binary(boardFileName);
     System.out.println(boardVO.getBoard_binary());
     boardService.addBoard(boardVO);
 
