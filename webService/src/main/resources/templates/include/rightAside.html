@@ -188,10 +188,16 @@
     }
     #predictModel{
         cursor: pointer;
+        margin-top: 20px;
+        font-size: 25px;
+        background: #3b82f6;
+        color: white;
+        border-radius: 5px;
+        text-align: center;
     }
 </style>
 <aside class="quickMenu" style="position: sticky; top: 10px;">
-    <div class="bg-blue-500 border border-gray-200 rounded-lg shadow dark:bg-green-800 dark:border-gray-700">
+    <div class="bg-blue-500 border border-gray-200 rounded-lg shadow">
         <div class="profileImage">
             <a href="myPage">
                 <img sec:authorize="isAnonymous()" src="Img/defaultGuest.png" alt="기본 프로필">
@@ -286,7 +292,9 @@
 <!--    피부진단모델 호출-->
     <div>
         <div id="predictModel" onclick="aiModelPopup()">
-            <span>AI 진단 받아보세요</span>
+            <div>피부가 가려우신가요?</div>
+            <div>AI진단 받아보세요</div>
+            <div>>진단 받으러 가기<</div>
         </div>
     </div>
 </aside>

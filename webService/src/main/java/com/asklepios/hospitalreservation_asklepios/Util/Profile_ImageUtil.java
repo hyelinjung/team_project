@@ -30,8 +30,8 @@ public class Profile_ImageUtil {
 //        }
 //    };
 
-    @Value("${upload.file.path}")
-//    @Value("${filePath}")
+//    @Value("${upload.file.path}")
+    @Value("${filePath}")
 
     private String filePath;
 
