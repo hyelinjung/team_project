@@ -58,6 +58,7 @@
   .header {
     height: 30px;
   }
+
   table input[type="submit"] {
     width: 160px;
     height: 60px;
@@ -105,7 +106,9 @@
     text-align: center;
     cursor: pointer;
   }
-
+  #board_binary{
+    cursor: pointer;
+  }
 </style>
 <body>
 <div th:replace="~{include/header}"></div>
@@ -157,7 +160,8 @@
           <tr><td colspan="2"><textarea style="resize: none" name="board_content" th:text="${boardVO.getBoard_content()}" readonly></textarea></td></tr>
           <tr><td class="header">첨부파일</td></tr>
           <tr>
-            <td><input type="text" name="board_binary" th:value="${boardVO.board_binary}" readonly></td>
+            <td><input type="text" name="board_binary" th:value="${boardVO.board_binary}" onclick="downloadFile()" readonly></td>
+<!--            <td><div onclick="downloadFile()">다운로드</div></td>-->
             <td th:if="${user!=null}"><span id="heart"></span><span id="heartCount" th:text="${boardVO.board_goodcount}"></span></td>
           </tr>
 
@@ -168,7 +172,8 @@
             <td><input type="hidden" th:value="${boardVO.board_viewcount}" name="board_viewcount"></td>
             <td><input type="hidden" th:value="${boardVO.board_goodcount}" name="board_goodcount"></td>
             <td><input type="hidden" th:value="${boardVO.board_sequence}" name="board_sequence"></td>
-            <td><input type="hidden" th:value="${user.getUser_authority()}" name="user_authority" </td>
+            <td><input type="hidden" th:value="${user.getUser_authority()}" name="user_authority"></td>
+            <td><input type="hidden" th:value="${boardVO.board_binary}" id="board_binary"> </td>
           </tr>
           <tr>
             <td><input type="submit" value="글 수정" ></td>
@@ -313,6 +318,11 @@
     }else{
       return false;
     }
+  }
+
+  function downloadFile(){
+    let fileName=document.getElementById("board_binary").value;
+    window.location.href=`download?filename=${fileName}`;
   }
 
 

@@ -1,5 +1,5 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+>
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
@@ -400,6 +400,7 @@
   function sendPage(){
     let flag = confirm("예약하시겠습니까?");
     if(flag){
+      selectedDoctor.value=doctorArr[findIdx()];
       return flag;
     }else{
       return flag;
@@ -423,7 +424,8 @@
     let JSON_hospitalList={
         "hospitalList":JSON.stringify(hospitalList)
     };
-
+    let selectedDoctor=document.getElementById("doctorCode");
+    let doctorArr;
     let resultrow=document.getElementsByClassName("resultrow");
     console.log(JSON_hospitalList);
     console.log(hospitalList);
@@ -699,7 +701,7 @@
           let careerArr=clickHospital.careers.split(",");
           let graduateArr=clickHospital.graduates.split(",");
           let imageArr=clickHospital.images.split(",");
-          let doctorCodeArr=clickHospital.codes.split(",");
+          doctorArr=clickHospital.codes.split(",");
           for(let i=0;i<nameArr.length;i++){
             doctorTable.innerHTML+=
                 `<tr>
@@ -725,8 +727,8 @@
                 graduateArr[i];
             document.getElementsByClassName("radio")[0].checked=true;
           }
-          let idx=findIdx();
-          document.getElementById("doctorCode").value=doctorCodeArr[idx];
+          // let idx=findIdx();
+          // document.getElementById("doctorCode").value=doctorCodeArr[idx];
         }
       }
 
@@ -746,6 +748,7 @@
       })
       return hospitalVO;
     }
+
     //체크된 의사 인덱스 찾기
     function findIdx(){
       let radio=document.getElementsByClassName("radio");
