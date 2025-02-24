@@ -4,16 +4,14 @@ import lombok.Data;
 
 @Data
 public class BoardVO {
-    private String board_sequence=null;
-    private String board_user_id=null;
-    private String board_category=null;
-    private String board_title=null;
-    private String board_content=null;
-    private String board_binary=null;
-    private Integer board_viewcount=null;
-    private String board_date=null;
-    private Integer board_goodcount=null;
-
-
+    private String board_sequence;
+    private String board_user_id;
+    private String board_category;
+    private String board_title;
+    private String board_content;
+    private String board_binary;
+    private Integer board_viewcount;
+    private String board_date;
+    private Integer board_goodcount;
 
 }

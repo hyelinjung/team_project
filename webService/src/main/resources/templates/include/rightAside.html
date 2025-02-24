@@ -503,6 +503,10 @@
     // AI진단모델 팝업창
     function aiModelPopup(){
         window.open('http://localhost:8080/asklepios/predict','예측모델',
-            'width=700px,height=800px,scrollbars=yes');
+            'width=600px,height=700px,scrollbars=yes');
+    }
+    //팝업창 닫고 예약하기 페이지로 이동
+    function closePopup(){
+        window.location.href="http://localhost:8080/asklepios/search?keyword=피부과"
     }
 </script>

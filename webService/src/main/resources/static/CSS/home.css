@@ -41,7 +41,8 @@ footer {
     font-family: 'Pretendard-Regular', 'sans-serif';
 }
 #loginSession{
-    width: 450px;
+/*알림벨 추가하면서 width 460 -> 470으로 수정 -혜린*/
+    width: 470px;
     font-size: 35px;
     color: #3B82F6;
     margin-top: 20px;
@@ -259,4 +260,27 @@ a {
     font-size: 30px;
     text-align: center;
     margin-bottom: 20px;
+}
+/*알림 벨*/
+.bell{
+   display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: white;
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    display: none;
+    line-height: 26px;
+    text-align: center;
+    }
+.fa-bell{
+position:relative;
+/*top:3px;*/
 }
