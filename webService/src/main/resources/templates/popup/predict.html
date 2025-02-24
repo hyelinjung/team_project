@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Asklepios</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <link rel="icon" href="Img/logo_icon.png" type="image/x-icon">
+</head>
+<style>
+  body {
+    width: 800px;
+  }
+  td{
+    font-size: 25px;
+  }
+  thead{
+    margin-bottom: 30px;
+  }
+  input[type=checkbox] {
+    zoom: 2;
+  }
+  input[type=button]{
+    cursor: pointer;
+    width: 160px;
+    height: 60px;
+    background: #3b82f6;
+    color: white;
+    border-radius: 10px;
+    font-size: 25px;
+    margin-top: 15px;
+  }
+  #skinImage {
+    width: 600px;
+    border: 2px solid;
+    border-radius: 10px;
+  }
+  #sendButton{
+    width: 160px;
+    height: 60px;
+    background: #3b82f6;
+    color: white;
+    border-radius: 10px;
+    font-size: 25px;
+    cursor: pointer;
+  }
+  #predictedDisease{
+    width: 600px;
+    height: 250px;
+    border: 2px solid #8a8a8a;
+    border-radius: 10px;
+  }
+  #agreementContent{
+    resize: none;
+    font-size: 20px;
+  }
+  #result{
+    display: none;
+  }
+</style>
+<script>
+  //비동기 통신으로 이미지에 대한 예측
+
+  function sendImage(){
+    //폼 제출 후 화면전환 막기
+    let agree=document.getElementById("agree");
+    event.preventDefault();
+    //이미지
+    let skinImage=document.getElementById("skinImage").files[0];
+    if(skinImage==null){
+      alert("진단받을 이미지를 업로드 해주세요")
+    }
+    if(agree.checked){
+      //FormData 객체생성
+      let formData=new FormData();
+      formData.append("skinImage",skinImage);
+      //ajax 비동기 전송
+      let xhr=new XMLHttpRequest();
+      // 서버에 POST 요청
+      xhr.open("post","imgPredict",true);
+
+      // 응답이 성공적으로 처리되었을 때 호출되는 함수
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          try {
+            // 서버의 JSON 응답을 파싱합니다.
+            let response = JSON.parse(xhr.responseText);
+            console.log('서버 응답:', response);
+            let predictedDisease=document.getElementById("predictedDisease");
+            predictedDisease.innerText=response;
+            let result=document.getElementById("result");
+            result.style.display="inline-block";
+          } catch (e) {
+            console.error('응답 파싱 오류:', e);
+          }
+        } else {
+          console.log('이미지 업로드 실패', xhr.status);
+        }
+      };
+
+      // 에러가 발생한 경우 호출되는 함수
+      xhr.onerror = function() {
+        console.log('네트워크 오류 발생');
+      };
+
+      // 서버가 JSON 응답을 반환하도록 설정한 경우, 응답 형식에 맞춰 처리
+      xhr.setRequestHeader('Accept', 'application/json');
+
+      xhr.send(formData); // 이미지 파일을 비동기로 서버로 전송합니다.
+    }else{
+      alert("약관을 읽고 동의해주세요")
+    }
+  }
+  //예약하기버튼
+  function reservation(){
+    window.opener.closePopup();
+    window.close();
+  }
+
+  //닫기버튼
+  function closeWindow(){
+    window.close();
+  }
+
+</script>
+<body class="mx-auto" style="margin-top: 50px">
+
+<form id="imageForm" enctype="multipart/form-data">
+  <table>
+    <thead>
+    <tr>
+      <td style="font-size: xx-large; text-align: center">피부질환 AI예측하기</td>
+    </tr>
+    </thead>
+    <tr>
+      <td>
+        <label for="agree">사진 활용 동의</label>
+      </td>
+
+    </tr>
+    <tr>
+      <td>
+                    <textarea  id="agreementContent" cols="65" rows="4" readonly>▶ 본인은 상기 사진 및 영상을 위와 같이 사용할 권리를 허락합니다.
+▶ 본인은 [Asklepios]에서 업로드한 사진 활용에 동의합니다.
+▶ 사진은 저장되지 않고 AI 예측 모델의 예측에만 사용됩니다.
+                    </textarea>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span style="font-size: 20px;float: right">약관에 동의합니다</span>
+        <input type="checkbox" id="agree" style="float: right;">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="skinImage">진단받고 싶은 사진을 업로드하세요</label>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="file" accept="image/*" id="skinImage" name="skinImage" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input id="sendButton" type="button" onclick="sendImage()" value="진단받기">
+      </td>
+    </tr>
+  </table>
+</form>
+<br>
+
+<table id="result">
+  <tr>
+    <td>
+      <label for="predictedDisease">진단결과</label>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div  id="predictedDisease"></div>
+      <!--                <textarea id="predictedDisease">-->
+
+      </textarea>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div style="font-size: xx-large; text-align: center">위 결과는 사실과 다를 수 있습니다. <br>
+        자세한 내용은 의사와 상담받으세요</div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input type="button" onclick="reservation()" value="예약하기">
+    </td>
+    <td>
+      <input type="button" onclick="closeWindow()" value="닫기">
+    </td>
+  </tr>
+</table>
+</body>
+</html>
