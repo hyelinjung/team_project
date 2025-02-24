@@ -9,9 +9,14 @@ import pathlib
 #FastAPI 생성
 app=FastAPI()
 
+#피부 질환 종류 정의
+class_names=['Acne', 'Actinic_Keratosis', 'Benign_tumors','Bullous,Candidiasis,DrugEruption',
+             'Eczema','Infestations_Bites', 'Lichen', 'Lupus', 'Moles','Psoriasis','Rosacea',
+             'Seborrh_Keratoses', 'SkinCancer', 'Sun_Sunlight_Damage','Tinea','Unknown_Normal'
+    ,'Vascular_Tumors', 'Vasculitis', 'Vitiligo', 'Warts']
 
 #학습된 모델 로드
-model=tf.keras.models.load_model("model/skin_disease_classification_model2.h5")
+model=tf.keras.models.load_model("skin_disease_classification_model2.h5")
 # 모델 컴파일
 model.compile(
     optimizer='adam',
