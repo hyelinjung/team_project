@@ -354,17 +354,8 @@
         }
     }
 
-    function orderBy() {
-        let category=document.getElementsByClassName("category")[0].innerText;
-        let orderNumber = document.getElementById("orderBy").value;
-        if(category==="오늘의 건강"){
-            window.location.href = `bboard_health?orderNumber=${orderNumber}`
-        }else if(category==="캠페인"){
-            window.location.href = `bboard_campaign?orderNumber=${orderNumber}`
-        }else if(category==="의료정보"){
-            window.location.href = `bboard_med?orderNumber=${orderNumber}`
-        }else if(category==="자유게시판"){
-            window.location.href = `bboard_free?orderNumber=${orderNumber}`
-        }
+    function orderBy(){
+        let orderNumber=document.getElementById("orderBy").value;
+        window.location.href=`bboard_health?orderNumber=${orderNumber}`
     }
 </script>

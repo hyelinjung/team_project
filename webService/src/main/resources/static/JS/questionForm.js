@@ -125,3 +125,59 @@ function validateForm(){
         return formFlag;
     }
 }
+
+function requestToServer(){
+    let result = validateForm();
+    if(result){
+        request_ai();
+    }
+    }
+
+
+function request_ai(){
+    let formData = new FormData();
+    let title =document.getElementById("question_title").value;
+    let content =document.getElementById("question_content").value;
+    let sub =document.getElementById("question_medical").value;
+    let file =document.getElementById("upload_file").files[0];
+    if(!(document.querySelector("input[name='tag'").value)){
+    let tag = document.querySelector("input[name='tag']").value;
+    formData.append('tag',tag)
+    }
+
+   /* location.href='/asklepios/';*/
+    formData.append('file',file);
+    formData.append('sub',sub);
+    formData.append('content',content);
+    formData.append('title',title);
+
+
+    $.ajax({
+         url:'/asklepios/qnaSubmit',
+         type:'POST',
+         data:formData,
+         contentType:false,
+         processData:false,
+         success:function(response){
+         console.log('success',response);
+            let id = response;
+            $.ajax({
+                url:'http://192.168.0.43:8000/ai_request',
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({'question': content,'question_id':id}),
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+
+                },
+                error: function() {
+                    console.log('fail');
+                }
+            })
+         },
+         error:function(error){
+         console.log('error');
+         }
+    });
+}
