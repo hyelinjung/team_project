@@ -86,7 +86,7 @@
                 <td class="flex justify-end">
                     <input type="hidden" id="question_id" th:value="${list.id}">
                     <button type="button" onclick="submit()" name="qna_btn" sec:authorize="hasRole('doctor')"
-                            class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                            class="bg-blue-500 w-48 h-20 text-4xl text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                         답변하기
                     </button>
                 </td>
@@ -129,12 +129,12 @@
 
                     <div th:if="${item.aiContentSplit == null or #arrays.length(item.aiContentSplit) ==0}">
                     <!-- 답변 내용 -->
-                    <div class="data-display text-2xl py-2 min-h-[100px]" style="margin-top:7%" th:text="${item.content}">
+                    <div class="data-display text-2xl py-2 min-h-[100px]" th:each="i : ${item.contentSplit}" th:text="${i}">
                         답변 내용
                     </div>
                     </div>
                     <div th:unless="${item.aiContentSplit == null or #arrays.length(item.aiContentSplit) ==0}">
-                        <div class="data-display text-2xl py-2 min-h-[100px]" style="margin-top:7%" th:each="i : ${item.aiContentSplit}" th:text="${i}">
+                        <div class="data-display text-2xl py-2 min-h-[100px]" th:each="i : ${item.aiContentSplit}" th:text="${i}">
                             답변 내용
                         </div>
                     </div>

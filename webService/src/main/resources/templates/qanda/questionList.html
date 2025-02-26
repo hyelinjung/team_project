@@ -28,7 +28,7 @@
     <!--<div class="nav">
       home>qna
     </div>-->
-    <div class="max-w-full mx-auto flex-1">
+    <div class="max-w-full mx-auto flex-1" style="overflow: scroll; scrollbar-width: none;">
       <ul class="w-full max-w-[1260px] space-y-4 overflow-y-auto max-h-screen">
         <li class="w-full bg-white shadow-md rounded-lg flex flex-col min-h-[200px] p-6" th:each="item : ${list}">
           <a th:href="@{/show?id={id}(id=${item.id})}" class="block w-full flex flex-col h-full" style="margin-top:-2%;">

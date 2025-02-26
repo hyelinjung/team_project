@@ -17,5 +17,5 @@ public class QuestionlistVO {
     private List<QuestionlistVO> answerlist; //큐앤에이 자세히 볼때 답변들을 담는다
     private String[] tagList;  //수정-혜린
     private String[] aiContentSplit; //ai 답변 . 기준으로 띄어쓰기 결과값 담는 변수
-
+    private String[] contentSplit; // 사람 답변 줄바꿈 구분 결과
 }

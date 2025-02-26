@@ -158,6 +158,7 @@ function request_ai(){
          data:formData,
          contentType:false,
          processData:false,
+         async:false,
          success:function(response){
          console.log('success',response);
             let id = response;
@@ -180,4 +181,6 @@ function request_ai(){
          console.log('error');
          }
     });
+
+    location.href = "/asklepios"
 }
