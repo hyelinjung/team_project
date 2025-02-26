@@ -169,7 +169,7 @@ public class AsklepiosController {
                     new HttpEntity<>(body,headers);
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<byte[]> response=restTemplate.postForEntity(
-                    "http://localhost:8000/imgPredict",requestEntity,byte[].class);
+                    "http://54.180.120.47:8000/imgPredict",requestEntity,byte[].class);
             //FastApi의 응답을 그대로 클라이언트에 리턴
             return response;
         }catch (Exception e){

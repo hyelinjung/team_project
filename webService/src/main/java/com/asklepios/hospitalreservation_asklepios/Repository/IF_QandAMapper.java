@@ -39,7 +39,7 @@ public interface IF_QandAMapper {
     String getSubjuct(int questionId);
 
     //ai 답변 가져옴
-    @Select("SELECT CONTENT as content,DATE as date,AI_SUB as tag,AI_NAME as sub FROM AI_ANSWER WHERE QUESTION_ID =#{questionId}")
+    @Select("SELECT CONTENT as content,DATE as date,AI_SUB as tag,AI_NAME as sub FROM ai_answer WHERE QUESTION_ID =#{questionId}")
     List<QuestionlistVO> getAIAnswer(int questionId);
 
     //의사 답변 -안읽은 메세지 수

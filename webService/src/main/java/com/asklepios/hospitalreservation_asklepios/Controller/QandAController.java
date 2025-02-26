@@ -38,6 +38,7 @@ public class QandAController {
     //model.addAttribute("user",  userservice.findMember());
     //유저id만 필요!
     model.addAttribute("userId",get_userId());
+    model.addAttribute("user", userservice.findMember());
     return "qanda/questionForm";
   }
 
@@ -60,6 +61,7 @@ public class QandAController {
       }else {
         result =service.save_text_w_img(file,questionVO);
       }
+      System.out.println(result);
       return new ResponseEntity<>(result, HttpStatus.OK);
     }catch (Exception e){
       System.out.println(e.getMessage());
@@ -79,6 +81,7 @@ public class QandAController {
   //큐엔에이 리스트 가져오기
   @GetMapping("/qandaList")
   public String qandalist(Model model){
+    model.addAttribute("user", userservice.findMember());
     check_unread();
     List<QuestionlistVO> list =service.getList();
     System.out.println(list);
@@ -112,6 +115,7 @@ public class QandAController {
   //질문 자세히 보기
   @GetMapping("/show")
   public String show(int id,Model model){
+    model.addAttribute("user", userservice.findMember());
     int count =0; //의사 답변 수
     int written_user =0;
     QuestionlistVO vo = service.showdetail(id);
@@ -156,6 +160,8 @@ public class QandAController {
         String[] str = ai.get(0).getContent().split("\\.");
         System.out.println(str.length);
         ai.get(0).setAiContentSplit(str);
+        System.out.println("ai확인"+ai.get(0));
+        //vo.getAnswerlist().add(ai.get(0));
         //ai 답변은 의사 답변이 하나도 없는 경우 1시간 이후에 보여줘야한다.
         if (check_answer_time(ai,date)){
           vo.getAnswerlist().add(ai.get(0));
@@ -166,13 +172,24 @@ public class QandAController {
 
     //의사답변 시간 전처리
     for(QuestionlistVO answer :vo.getAnswerlist()){
-      if (answer.getTitle() !=null){
-        answer.setTitle("/getImg/"+answer.getTitle());
+      if (answer.getTitle() !=null){ //의사 이미지 전처리
+        answer.setTitle("/profile_image/"+answer.getTitle());
+        String[] doctorAnswer = answer.getContent().split("\\.");
+        System.out.println("1");
+        System.out.println(Arrays.toString(doctorAnswer));
+        answer.setContentSplit(doctorAnswer);
+      }else{
+        answer.setTitle("/Img/defaultDoctor.png");
+        String[] doctorAnswer = answer.getContent().split("\\.");
+        System.out.println("1");
+        System.out.println(Arrays.toString(doctorAnswer));
+        answer.setContentSplit(doctorAnswer);
       }
       String answer_date =answer.getDate();
       answer.setDate(getWrittenTime(answer_date));
       count++;
       System.out.println("사용자"+written_user);
+      System.out.println("오류잡"+vo);
       if (written_user==1){
         if (answer.getAiContentSplit() != null){
           System.out.println("ai!!");
@@ -182,9 +199,10 @@ public class QandAController {
           service.changeUnreadCountService(id,1,1);
         }
       }
+
     }
 
-
+    System.out.println("확인!!");
     int unread = check_unread();
     System.out.println("unread"+unread);
     System.out.println(vo);
@@ -198,6 +216,7 @@ public class QandAController {
   @GetMapping("/answerPage")
   public String answerPage(int questionId,Model model){
     String subject = service.getSubject(questionId);
+    model.addAttribute("user", userservice.findMember());
     model.addAttribute("id",questionId);
     model.addAttribute("qna_title",subject);
     return "qanda/questionAnswerForm";
@@ -256,7 +275,7 @@ public class QandAController {
       LocalDateTime question_date_format = LocalDateTime.parse(question_date,formatter);
       d =Duration.between(question_date_format,localDateTime);
     }
-    if (d.toMinutes()>60){
+    if (d.toMinutes()>4){
       return true; //ai 답변 필요
     }else {
       return false;

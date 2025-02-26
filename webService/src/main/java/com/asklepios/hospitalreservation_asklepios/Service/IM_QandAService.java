@@ -19,6 +19,9 @@ import java.util.UUID;
 @Service
 public class IM_QandAService implements IF_QandAService{
 
+    @Autowired
+    IF_UserService ifUserService;
+
     @Value("${filePath}")
     private String path;
     @Autowired
@@ -51,8 +54,9 @@ public class IM_QandAService implements IF_QandAService{
 
     @Override
     public int save_text_w_img(List<MultipartFile> files, QuestionVO vo) {
+        String questionUserId = ifUserService.findMember().getUser_id();
         System.out.println("질문 텍스트 저장");
-        vo.setUser_id("lin99");
+        vo.setUser_id(questionUserId);
         qandAMapper.save_qanda_text(vo);
         System.out.println(vo.getId());
         return save_local_img(files,vo.getId());
@@ -62,7 +66,8 @@ public class IM_QandAService implements IF_QandAService{
     public int save_text(QuestionVO vo) {
         System.out.println("질문 텍스트 저장 사진 없이");
         try {
-            return qandAMapper.save_qanda_text(vo);
+            qandAMapper.save_qanda_text(vo);
+            return vo.getId();
         }catch (Exception e){
             System.out.println("오류:"+e.getMessage());
             return 0;
