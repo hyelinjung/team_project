@@ -44,10 +44,10 @@
             <tr class="small m-0 h-auto">
                 <td colspan="1" class="td2 p-0">
                     <div class="data-display flex space-x-2">
-                        <p class="text-gray-500 text-lg" th:text="${list.user_name}">
+                        <p class="text-gray-500 text-xl" th:text="${list.user_name}">
                             김**
                         </p>
-                        <p class="text-gray-500 text-lg" th:text="${list.date}">
+                        <p class="text-gray-500 text-xl" th:text="${list.date}">
                             방금 전
                         </p>
                     </div>
@@ -56,7 +56,7 @@
 
             <tr class="medium">
                 <td colspan="2" class="td2">
-                    <div class="data-display text-2xl py-0 min-h-[100px]" th:text="${list.content}">
+                    <div class="data-display text-2xl py-0 min-h-[100px]" style="white-space: pre-line; word-wrap: break-word; line-height: 3;" th:text="${list.content}">
                         내용
                     </div>
                 </td>
@@ -76,7 +76,7 @@
 
             <tr class="qan_bu flex w-full justify-between items-center">
                 <!-- 태그 리스트 (왼쪽 정렬) -->
-                <td class="flex flex-wrap space-x-2 text-left">
+                <td class="flex flex-wrap space-x-2 text-2xl text-left">
                     <div class="data-display py-0" th:each="t : ${list.tagList}" th:text="${t == ''? t:'#' + t}">
                         #태그
                     </div>
@@ -116,15 +116,15 @@
                             <img th:src="@{/Img/chatbot.png}" alt="의사 프로필" class="w-12 h-12 rounded-full" style="background: #3b82f6">
                         </div>
 
-                        <p class="text-gray-500 text-lg" th:text="${item.tag} ?: '전문과 없음'">전문과</p>
+                        <p class="text-gray-500 text-2xl" th:text="${item.tag} ?: '전문과 없음'">전문과</p>
                         <span>/</span>
-                        <p class="text-gray-500 text-lg" th:text="${item.sub} ?: '병원명 없음'">병원명</p>
+                        <p class="text-gray-500 text-2xl" th:text="${item.sub} ?: '병원명 없음'">병원명</p>
                     </div>
 
                     <!-- 의사 이름 및 작성 시간 -->
                     <div class="data-display flex space-x-2">
-                        <p class="text-gray-500 text-lg" th:text="${item.user_name}">의사이름</p>
-                        <p class="text-gray-500 text-lg" th:text="${item.date} ?: '작성시간 없음'">작성시간</p>
+                        <p class="text-gray-500 text-xl mt-2" th:text="${item.user_name}">의사이름</p>
+                        <p class="text-gray-500 text-xl mt-2" th:text="${item.date} ?: '작성시간 없음'">작성시간</p>
                     </div>
 
                     <div th:if="${item.aiContentSplit == null or #arrays.length(item.aiContentSplit) ==0}">

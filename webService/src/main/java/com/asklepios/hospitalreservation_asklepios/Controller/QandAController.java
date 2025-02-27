@@ -275,7 +275,7 @@ public class QandAController {
       LocalDateTime question_date_format = LocalDateTime.parse(question_date,formatter);
       d =Duration.between(question_date_format,localDateTime);
     }
-    if (d.toMinutes()>4){
+    if (d.toMinutes()>60){
       return true; //ai 답변 필요
     }else {
       return false;

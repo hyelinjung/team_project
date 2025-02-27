@@ -140,7 +140,7 @@ function request_ai(){
     let content =document.getElementById("question_content").value;
     let sub =document.getElementById("question_medical").value;
     let file =document.getElementById("upload_file").files[0];
-    if(!(document.querySelector("input[name='tag'").value)){
+    if((document.querySelector("input[name='tag']").value)){
     let tag = document.querySelector("input[name='tag']").value;
     formData.append('tag',tag)
     }
