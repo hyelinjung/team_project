@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -124,7 +126,14 @@ public class IM_UserService implements IF_UserService{
     }
 
     @Override
-    public void addUserDoctorInfo(DoctorVO doctorVO) {usermapper.insertUserDoctorInfo(doctorVO);}
+    @Transactional
+    public void addUserDoctorInfo(DoctorVO doctorVO,UserVO userVO,String rollback) {
+        usermapper.insertUserCommonInfo(userVO);
+        usermapper.insertUserDoctorInfo(doctorVO);
+        if (rollback.equals("back")){
+            throw new RuntimeException("뒤로가기");
+        }
+    }
 
     @Override
     public String checkedPassword(String user_id) {
