@@ -80,91 +80,120 @@
     }
 </style>
 <script th:inline="javascript">
-    window.onload = function() {
-        const modalOpenButton = document.getElementById('modalOpenButton');
-        const modalCloseButton = document.getElementById('modalCloseButton');
-        const modal = document.getElementById('modalContainer');
-        modalOpenButton.addEventListener('click', () => {
-            modal.classList.remove('hidden');
-        });
+    $(document).ready(function(){
+   setTimeout(()=>{
+     history.pushState(null, "", location.href); // 페이지 로드 후 히스토리 조작
+    },100);
 
-        modalCloseButton.addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
-        let a = document.getElementById('modalOpenButton');
-        a.onclick = selectHospital();
-    }
+    window.addEventListener("popstate", function () {
+       const confirmLeave = confirm("정보가 저장되지 않을 수 있습니다.정말 이 페이지에서 나가시겠습니까?");
+           if (!confirmLeave) {
+               history.pushState(null, "", location.href); // 다시 히스토리를 추가해서 뒤로 가기 방지
+           } else {
+               console.log("확인!");
+               let rollback = 'back';
+               $.ajax({
+                   url: "/asklepios/doctorinfo",
+                   type:"POST",
+                   data:{
+                   rollback :rollback
+                   },
+                   success:function(){
+                   console.log('데이터 롤벡');
+                   },
+                   error: function(){
+                   console.log('데이터 롤벡 오류');
+                   }
+               });
+               location.href='/asklepios/';
+           }
+   });
+   });
+   window.onload = function() {
+       const modalOpenButton = document.getElementById('modalOpenButton');
+       const modalCloseButton = document.getElementById('modalCloseButton');
+       const modal = document.getElementById('modalContainer');
+       modalOpenButton.addEventListener('click', () => {
+           modal.classList.remove('hidden');
+       });
 
-    function searchDetailHospital() {
-        $.ajax({
-            url: "/asklepios/hospitalList",
-            type: "get",
-            data: { hospital_name : document.getElementById("hospital_name").value},
-            dataType: "json",
-            success: function (hospitalJson) {
-                $('#tbody').html('');
-                $.each(hospitalJson, function (i) {
-                    const table = document.getElementById("selectedHospital");
-                    const newRow = table.insertRow();
-                    newRow.setAttribute("id", "viewHospital")
+       modalCloseButton.addEventListener('click', () => {
+           modal.classList.add('hidden');
+       });
+       let a = document.getElementById('modalOpenButton');
+       a.onclick = selectHospital();
+   }
 
-                    const newCell1 = newRow.insertCell(0);
-                    const newCell2 = newRow.insertCell(1);
-                    const newCell3 = newRow.insertCell(2);
+   function searchDetailHospital() {
+       $.ajax({
+           url: "/asklepios/hospitalList",
+           type: "get",
+           data: { hospital_name : document.getElementById("hospital_name").value},
+           dataType: "json",
+           success: function (hospitalJson) {
+               $('#tbody').html('');
+               $.each(hospitalJson, function (i) {
+                   const table = document.getElementById("selectedHospital");
+                   const newRow = table.insertRow();
+                   newRow.setAttribute("id", "viewHospital")
 
-                    // newCell1.innerText = hospitalJson[i].hospital_name;
-                    // newCell2.innerText = hospitalJson[i].hospital_addr;
-                    // newCell3.innerText = hospitalJson[i].hospital_code;
-                    newCell1.innerHTML = '<button type="button" onclick="selectHospital()">'+hospitalJson[i].hospital_name+'</button>';
-                    newCell2.innerHTML = '<button type="button" onclick="selectHospital()">'+hospitalJson[i].hospital_addr+'</button>';
-                    newCell3.innerHTML = '<button type="button" onclick="selectHospital()" value="' +
-                        hospitalJson[i].hospital_code + '">'+hospitalJson[i].hospital_code+'</button>';
+                   const newCell1 = newRow.insertCell(0);
+                   const newCell2 = newRow.insertCell(1);
+                   const newCell3 = newRow.insertCell(2);
 
-                })
-            }
-        })
-        selectHospital();
-    }
+                   // newCell1.innerText = hospitalJson[i].hospital_name;
+                   // newCell2.innerText = hospitalJson[i].hospital_addr;
+                   // newCell3.innerText = hospitalJson[i].hospital_code;
+                   newCell1.innerHTML = '<button type="button" onclick="selectHospital()">'+hospitalJson[i].hospital_name+'</button>';
+                   newCell2.innerHTML = '<button type="button" onclick="selectHospital()">'+hospitalJson[i].hospital_addr+'</button>';
+                   newCell3.innerHTML = '<button type="button" onclick="selectHospital()" value="' +
+                       hospitalJson[i].hospital_code + '">'+hospitalJson[i].hospital_code+'</button>';
 
-    function selectHospital() {
-        let table = document.getElementById("selectHospital");
-        let rowList = table.rows;
-        for(let i = 1; i < rowList.length; i++) {
-            var row = rowList[i];
-            row.onclick = function () {
-                return function () {
-                    let selected_hospital_code = this.cells[2].innerText;
-                    let codeString = "";
-                    codeString = selected_hospital_code;
-                    document.getElementById('user_doctor_hospital_code').value = codeString;
-                    document.getElementById('user_doctor_hospital_code').readOnly = true;
-                    const modal = document.getElementById('modalContainer');
-                    modal.classList.add('hidden');
-                }
-            }(row);
-        }
-    }
+               })
+           }
+       })
+       selectHospital();
+   }
 
-    function checkInfo(submit) {
-        let doctorMedical = false;
-        let doctorCareer = false;
-        let doctorGraduate = false;
-        if(document.getElementById('user_doctor_medical').value !== "") {
-            doctorMedical = true;
-        }
-        if(document.getElementById('user_doctor_career').innerText !== "") {
-            doctorCareer = true;
-        }
-        if(document.getElementById('user_doctor_graduate').innerText !== "") {
-            doctorGraduate = true;
-        }
-        if(doctorMedical === doctorCareer === doctorGraduate === true) {
-            return true;
-        } else {
-            alert("가입 정보가 정확하게 입력되지 않았습니다. 다시 확인해주세요.")
-            return false;
-        }
-    }
+   function selectHospital() {
+       let table = document.getElementById("selectHospital");
+       let rowList = table.rows;
+       for(let i = 1; i < rowList.length; i++) {
+           var row = rowList[i];
+           row.onclick = function () {
+               return function () {
+                   let selected_hospital_code = this.cells[2].innerText;
+                   let codeString = "";
+                   codeString = selected_hospital_code;
+                   document.getElementById('user_doctor_hospital_code').value = codeString;
+                   document.getElementById('user_doctor_hospital_code').readOnly = true;
+                   const modal = document.getElementById('modalContainer');
+                   modal.classList.add('hidden');
+               }
+           }(row);
+       }
+   }
+
+   function checkInfo(submit) {
+       let doctorMedical = false;
+       let doctorCareer = false;
+       let doctorGraduate = false;
+       if(document.getElementById('user_doctor_medical').value !== "") {
+           doctorMedical = true;
+       }
+       if(document.getElementById('user_doctor_career').innerText !== "") {
+           doctorCareer = true;
+       }
+       if(document.getElementById('user_doctor_graduate').innerText !== "") {
+           doctorGraduate = true;
+       }
+       if(doctorMedical === doctorCareer === doctorGraduate === true) {
+           return true;
+       } else {
+           alert("가입 정보가 정확하게 입력되지 않았습니다. 다시 확인해주세요.")
+           return false;
+       }
+   }
 
 </script>
 <body>

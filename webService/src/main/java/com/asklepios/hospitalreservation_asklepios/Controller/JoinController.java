@@ -24,6 +24,7 @@ public class JoinController {
 
     @Autowired
     Profile_ImageUtil profileImageUtil;
+    public UserVO rollback_vo;
 
     @GetMapping("/agreement")
     public String agreement(Model model) throws Exception {
@@ -48,26 +49,44 @@ public class JoinController {
 
     @PostMapping(value="/commoninfo")
     public String commoninfo(@ModelAttribute UserVO userVO, @RequestParam(value = "file", required = false) MultipartFile file, Model model) throws Exception {
+        System.out.println("일반 가입");
         String newFileName = profileImageUtil.storeFile(file);
         System.out.println(newFileName);
         userVO.setUser_image(newFileName);
         String doctor_id = userVO.getUser_id();
         model.addAttribute("user_id", doctor_id);
-        userService.addUserCommonInfo(userVO);
 //        System.out.println(userVO.getUser_authority());
 //        System.out.println(userVO.toString());
         if(userVO.getUser_authority().equals("doctor")) {
+            System.out.println("의사");
+            rollback_vo = userVO;
             return "userJoin/insertDoctorUserInfo";
         } else {
+            System.out.println("일반");
+            userService.addUserCommonInfo(userVO);
             return "userJoin/successJoin";
         }
 
     }
 
+    //뒤로가기인지 파악해서 처리 - 기존 코드를 재사용하여 불필요한 코드 생성 안함
     @PostMapping("/doctorinfo")
-    public String doctorinfo(@ModelAttribute DoctorVO doctorVO) throws Exception {
-        doctorVO.setUser_doctor_code(UUID.randomUUID().toString());
-        userService.addUserDoctorInfo(doctorVO);
+    public String doctorinfo(@ModelAttribute DoctorVO doctorVO,@RequestParam(required = false) String rollback) throws Exception {
+        System.out.println("의사가입");
+        try {
+            String flag; //롤백확인
+            DoctorVO vo = new DoctorVO(); //공통 저장 객체
+            if (rollback != null) {
+                flag = rollback;
+            }else{
+                flag =" normal";
+                vo = doctorVO;
+            }
+            vo.setUser_doctor_code(UUID.randomUUID().toString());
+            userService.addUserDoctorInfo(vo,rollback_vo,flag);
+        }catch (RuntimeException e){
+            System.out.println("오류발생:"+e.getMessage());
+        }
         return "userJoin/successJoin";
     }
 
